@@ -52,7 +52,7 @@ namespace BaseCourse.Domain.Models.Entities
             var orderItem = orderItems.FirstOrDefault(o => o.ProductBusinessId.Equals(productBusinessId));
             if (orderItem == null)
             {
-                orderItem = new OrderItem(productBusinessId, quantity);
+                orderItem = new OrderItem(orderBusinessId, productBusinessId, quantity);
                 orderItems.Add(orderItem);
             }
             else
@@ -69,10 +69,12 @@ namespace BaseCourse.Domain.Models.Entities
             }
 
             OrderItem orderItem = orderItems.FirstOrDefault(o => o.ProductBusinessId.Equals(productBusinessId));
-            if (orderItem != null)
+            if (orderItem == null)
             {
-                orderItems.Remove(orderItem);
+                throw new ArgumentException("OrderItem not found.", "productBusinessId");
             }
+
+            orderItems.Remove(orderItem);
         }
 
         public void Checkout(IPriceCalculator priceCalculator)
@@ -124,7 +126,7 @@ namespace BaseCourse.Domain.Models.Entities
             {
                 throw new ArgumentException("Product with id: " + productBusinessId + " is not found", "productBusinessId");
             }
-            OrderItem newOrderItem = new OrderItem(productBusinessId, quantity);
+            OrderItem newOrderItem = new OrderItem(orderBusinessId, productBusinessId, quantity);
             orderItems.Remove(orderItem);
             orderItems.Add(newOrderItem);
         }

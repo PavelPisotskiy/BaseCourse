@@ -4,22 +4,22 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using BaseCourse.Domain.Storages;
+using BaseCourse.Domain.Repositories;
 
 namespace BaseCourse.Domain
 {
     public class PriceCalculator : IPriceCalculator
     {
         private Discount discount;
-        private IProductStorage productStorage;
+        private IProductRepository productStorage;
 
-        public PriceCalculator(IProductStorage productStorage, Discount discount)
+        public PriceCalculator(IProductRepository productStorage, Discount discount)
         {
             this.discount = discount;
             this.productStorage = productStorage;
         }
 
-        public PriceCalculator(IProductStorage productStorage)
+        public PriceCalculator(IProductRepository productStorage)
             : this(productStorage, null)
         {
 

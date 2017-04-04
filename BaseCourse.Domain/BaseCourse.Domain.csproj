@@ -95,8 +95,8 @@
     <Compile Include="Models\Enums\Status.cs" />
     <Compile Include="Interfaces\IPriceCalculator.cs" />
     <Compile Include="PriceCalculator.cs" />
-    <Compile Include="Storages\IOrderStorage.cs" />
-    <Compile Include="Storages\IProductStorage.cs" />
+    <Compile Include="Repositories\IOrderRepository.cs" />
+    <Compile Include="Repositories\IProductRepository.cs" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

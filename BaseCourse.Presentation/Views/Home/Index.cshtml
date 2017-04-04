@@ -1,0 +1,18 @@
+﻿@using(Script.Head()){
+    Style.Require("styles");    
+    Style.Require("extJsStyles");
+    Script.Require("app");
+    <script>
+        var productUrls = {
+            GetProducts: 'http://localhost:36584/api/Product/GetProducts',
+            GetGetProductById: 'http://localhost:36584/api/Product/GetProductById'
+        }
+
+        var orderUrls = {
+            GetCart: 'http://localhost:36584/api/Order/GetCart',
+            AddToCart: 'http://localhost:36584/api/Order/AddToCart'
+        }
+
+    </script>
+}
+

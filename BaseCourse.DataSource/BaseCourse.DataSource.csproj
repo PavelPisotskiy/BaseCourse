@@ -98,8 +98,8 @@
     <Compile Include="Models\ProductPriceRecord.cs" />
     <Compile Include="Models\ProductRecord.cs" />
     <Compile Include="OrderItemRecordsChangeController.cs" />
-    <Compile Include="Storages\OrderStorage.cs" />
-    <Compile Include="Storages\ProductStorage.cs" />
+    <Compile Include="Repositories\OrderRepository.cs" />
+    <Compile Include="Repositories\ProductRepository.cs" />
     <Compile Include="Mappers\OrderItemMapper.cs" />
     <Compile Include="Mappers\OrderMapper.cs" />
     <Compile Include="Mappers\ProductPriceMapper.cs" />

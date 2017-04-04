@@ -5,6 +5,7 @@ Website: http://orchardproject.net
 Version: 1.0
 OrchardVersion: 1.0
 Description: Description for the module
+Dependencies: BaseCourse.DataSource, BaseCourse.Domain
 Features:
     BaseCourse.Application:
         Description: Description for feature BaseCourse.Application.

@@ -9,10 +9,11 @@ namespace BaseCourse.Application.Mappers
 {
     internal class OrderItemDtoMapper
     {
-        public OrderItemDto GetOrderItemDto(OrderItem orderItem)
+        public OrderItemDto GetOrderItemDto(OrderItem orderItem, string orderBusinessId)
         {
             OrderItemDto orderItemDto = new OrderItemDto()
             {
+                OrderBusinessId = orderBusinessId,
                 ProductBusinessId = orderItem.ProductBusinessId,
                 Quantity = orderItem.Quantity
             };

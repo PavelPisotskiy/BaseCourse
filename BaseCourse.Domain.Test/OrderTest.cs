@@ -8,13 +8,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using Moq;
-using BaseCourse.Domain.Storages;
+using BaseCourse.Domain.Repositories;
 
 namespace BaseCourse.Domain.Test
 {
     [TestFixture]
     public class OrderTest
     {
+        public class Checkout
+        {
+        }
         [Test]
         public void TotalPrice_Must_Return_Calculated_Price_Of_Three_Products()
         {
@@ -52,7 +55,7 @@ namespace BaseCourse.Domain.Test
                 testProduct3
             };
 
-            var mock = new Mock<IProductStorage>();
+            var mock = new Mock<IProductRepository>();
             mock.Setup(s => s.GetByBusinessId(It.IsAny<string>())).Returns<string>((id) => products.FirstOrDefault(p => p.ProductBusinessId == id));
 
             IPriceCalculator calculator = new PriceCalculator(mock.Object);
@@ -128,7 +131,7 @@ namespace BaseCourse.Domain.Test
             };
 
             Product testProduct1 = new Product(productBusinessId, "Test Product 1", "kg", prices.Where(p => p.ProductBusinessId == productBusinessId));
-            var mock = new Mock<IProductStorage>();
+            var mock = new Mock<IProductRepository>();
             mock.Setup(s => s.GetByBusinessId(productBusinessId)).Returns(testProduct1);
 
             IPriceCalculator calculator = new PriceCalculator(mock.Object);
@@ -155,7 +158,7 @@ namespace BaseCourse.Domain.Test
             };
 
             Product testProduct1 = new Product(productBusinessId, "Test Product 1", "kg", prices.Where(p => p.ProductBusinessId == productBusinessId));
-            var mock = new Mock<IProductStorage>();
+            var mock = new Mock<IProductRepository>();
             mock.Setup(s => s.GetByBusinessId(productBusinessId)).Returns(testProduct1);
 
             IPriceCalculator calculator = new PriceCalculator(mock.Object);
@@ -183,7 +186,7 @@ namespace BaseCourse.Domain.Test
             };
 
             Product testProduct1 = new Product(productBusinessId, "Test Product 1", "kg", prices.Where(p => p.ProductBusinessId == productBusinessId));
-            var mock = new Mock<IProductStorage>();
+            var mock = new Mock<IProductRepository>();
             mock.Setup(s => s.GetByBusinessId(productBusinessId)).Returns(testProduct1);
 
             IPriceCalculator calculator = new PriceCalculator(mock.Object);
@@ -211,7 +214,7 @@ namespace BaseCourse.Domain.Test
             };
 
             Product testProduct1 = new Product(productBusinessId, "Test Product 1", "kg", prices.Where(p => p.ProductBusinessId == productBusinessId));
-            var mock = new Mock<IProductStorage>();
+            var mock = new Mock<IProductRepository>();
             mock.Setup(s => s.GetByBusinessId(productBusinessId)).Returns(testProduct1);
 
             IPriceCalculator calculator = new PriceCalculator(mock.Object);
@@ -239,7 +242,7 @@ namespace BaseCourse.Domain.Test
             };
 
             Product testProduct1 = new Product(productBusinessId, "Test Product 1", "kg", prices.Where(p => p.ProductBusinessId == productBusinessId));
-            var mock = new Mock<IProductStorage>();
+            var mock = new Mock<IProductRepository>();
             mock.Setup(s => s.GetByBusinessId(productBusinessId)).Returns(testProduct1);
 
             IPriceCalculator calculator = new PriceCalculator(mock.Object);
@@ -270,7 +273,7 @@ namespace BaseCourse.Domain.Test
             };
 
             Product testProduct1 = new Product(productBusinessId, "Test Product 1", "kg", prices.Where(p => p.ProductBusinessId == productBusinessId));
-            var mock = new Mock<IProductStorage>();
+            var mock = new Mock<IProductRepository>();
             mock.Setup(s => s.GetByBusinessId(productBusinessId)).Returns(testProduct1);
 
             Discount discount = new Discount(discountInPercentage);
@@ -312,7 +315,7 @@ namespace BaseCourse.Domain.Test
             int customerId = 1;
             string orderBusinessId = Guid.NewGuid().ToString();
             Order order = new Order(customerId, orderBusinessId);
-            var mock = new Mock<IProductStorage>();
+            var mock = new Mock<IProductRepository>();
             IPriceCalculator calculator = new PriceCalculator(mock.Object);
 
             InvalidOperationException ex = Assert.Throws<InvalidOperationException>(() => order.Checkout(calculator));
@@ -387,7 +390,7 @@ namespace BaseCourse.Domain.Test
             Product testProduct1 = new Product(productBusinessId, "Test Product 1", "kg", prices.Where(p => p.ProductBusinessId == productBusinessId));
             order.AddProduct(productBusinessId, productQuantity);
 
-            var mock = new Mock<IProductStorage>();
+            var mock = new Mock<IProductRepository>();
             mock.Setup(s => s.GetByBusinessId(productBusinessId)).Returns(testProduct1);
             IPriceCalculator calculator = new PriceCalculator(mock.Object);
             order.Checkout(calculator);

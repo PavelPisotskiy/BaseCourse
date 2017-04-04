@@ -1,8 +1,11 @@
-﻿using BaseCourse.Application.Interfaces;
+﻿using BaseCourse.Application.Exceptions;
+using BaseCourse.Application.Interfaces;
 using BaseCourse.Application.Mappers;
 using BaseCourse.Application.Models.Dto;
+using BaseCourse.Application.Permissions;
 using BaseCourse.Domain.Models.Entities;
-using BaseCourse.Domain.Storages;
+using BaseCourse.Domain.Repositories;
+using Orchard;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,40 +15,61 @@ namespace BaseCourse.Application.Services
 {
     public class ProductService : IProductService
     {
-        private readonly IProductStorage productStorage;
+        private readonly IProductRepository productRepository;
         private readonly ProductDtoMapper productDtoMapper;
- 
-        public ProductService(IProductStorage productStorage)
+        private readonly IUserService userService;
+
+        public ProductService(IProductRepository productStorage, IUserService userService)
         {
-            this.productStorage = productStorage;
+            this.productRepository = productStorage;
             this.productDtoMapper = new ProductDtoMapper();
+            this.userService = userService;
         }
 
         public ProductDto GetProductById(string productBusinessId)
         {
-            Product product = productStorage.GetByBusinessId(productBusinessId);
+            if (!userService.VerifyUserPermission(PermissionProvider.GetProducts))
+            {
+                throw new PermissionException("You do not have permission to perform this action.");
+            }
+
+            Product product = productRepository.GetByBusinessId(productBusinessId);
             ProductDto productDto = productDtoMapper.GetProductDto(product);
             return productDto;
         }
 
         public IEnumerable<ProductDto> GetProducts()
         {
-            return productStorage.GetProducts().Select(product => productDtoMapper.GetProductDto(product));
+            if (!userService.VerifyUserPermission(PermissionProvider.GetProducts))
+            {
+                throw new PermissionException("You do not have permission to perform this action.");  
+            }
+
+            return productRepository.GetProducts().Select(product => productDtoMapper.GetProductDto(product));
         }
 
         public void Create(ProductDto productDto)
         {
-            string productBusinessId = Guid.NewGuid().ToString();
-            Product product = new Product(productBusinessId, productDto.Name, productDto.Units);
+            if (!userService.VerifyUserPermission(PermissionProvider.CreateProducts))
+            {
+                throw new PermissionException("You do not have permission to perform this action.");
+            }
+
+            Product product = new Product(productDto.ProductBusinessId, productDto.Name, productDto.Units);
             product.AddPrice(productDto.Price, DateTime.UtcNow);
-            productStorage.Create(product);
+            productRepository.Create(product);
         }
 
-        public void AddProductPrice(string productBusinessId, double price, DateTime effectiveDateUtc)
+        public void AddProductPrice(ProductPriceDto productPrice)
         {
-            Product product = productStorage.GetByBusinessId(productBusinessId);
-            product.AddPrice(price, effectiveDateUtc);
-            productStorage.Update(product);
+            if (!userService.VerifyUserPermission(PermissionProvider.AddProductPrice))
+            {
+                throw new PermissionException("You do not have permission to perform this action.");
+            }
+
+            Product product = productRepository.GetByBusinessId(productPrice.ProductBusinessId);
+            product.AddPrice(productPrice.Price, productPrice.EffectiveDateUtc);
+            productRepository.Update(product);
         }
     }
 }

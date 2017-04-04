@@ -92,6 +92,9 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
+    <Compile Include="Exceptions\OrderNotFoundException.cs" />
+    <Compile Include="Exceptions\PermissionException.cs" />
+    <Compile Include="Exceptions\ProductNotFoundException.cs" />
     <Compile Include="Interfaces\IOrderService.cs" />
     <Compile Include="Interfaces\IProductService.cs" />
     <Compile Include="Interfaces\IUserService.cs" />
@@ -103,10 +106,10 @@
     <Compile Include="Models\Dto\ProductDto.cs" />
     <Compile Include="Models\Dto\ProductPriceDto.cs" />
     <Compile Include="Models\Dto\StatusDto.cs" />
-    <Compile Include="Models\Role.cs" />
-    <Compile Include="Permissions\Permissions.cs" />
+    <Compile Include="Permissions\PermissionProvider.cs" />
     <Compile Include="Services\OrderService.cs" />
     <Compile Include="Services\ProductService.cs" />
+    <Compile Include="Services\UserService.cs" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

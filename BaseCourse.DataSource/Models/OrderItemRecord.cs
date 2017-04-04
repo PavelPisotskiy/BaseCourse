@@ -8,6 +8,8 @@ namespace BaseCourse.DataSource.Models
     public class OrderItemRecord
     {
         public virtual long Id { get; set; }
+        public virtual long OrderId { get; set; }
+        public virtual long ProductId { get; set; }
         public virtual string OrderBusinessId { get; set; }
         public virtual string ProductBusinessId { get; set; }
         public virtual int Quantity { get; set; }

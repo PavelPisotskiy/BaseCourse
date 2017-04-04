@@ -1,96 +1,247 @@
 ﻿using BaseCourse.Application.Interfaces;
 using BaseCourse.Application.Mappers;
 using BaseCourse.Application.Models.Dto;
+using BaseCourse.Application.Permissions;
 using BaseCourse.Domain;
 using BaseCourse.Domain.Interfaces;
 using BaseCourse.Domain.Models.Entities;
-using BaseCourse.Domain.Storages;
+using BaseCourse.Domain.Models.Enums;
+using BaseCourse.Domain.Repositories;
+using Orchard;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using BaseCourse.Application.Exceptions;
 
 namespace BaseCourse.Application.Services
 {
     public class OrderService : IOrderService
     {
-        private readonly IOrderStorage orderStorage;
-        private readonly IProductStorage productStorage;
+        private readonly IOrderRepository orderRepository;
+        private readonly IProductRepository productRepository;
         private readonly OrderDtoMapper orderDtoMapper;
         private readonly IUserService userService;
 
-        public OrderService(IOrderStorage orderStorage, IProductStorage productStorage, 
+        public OrderService(IOrderRepository orderRepository, IProductRepository productRepository,
             IUserService userService)
         {
-            this.orderStorage = orderStorage;
-            this.productStorage = productStorage;
+            this.orderRepository = orderRepository;
+            this.productRepository = productRepository;
             this.userService = userService;
             orderDtoMapper = new OrderDtoMapper();
         }
 
-        public OrderDto GetOrderById(string orderBusinessId)
+        public OrderDto GetCart()
         {
-            Order order = orderStorage.GetByBusinessId(orderBusinessId);
-            OrderDto orderDto = orderDtoMapper.GetOrderDto(order);
+            Order currentOrder = GetCartOfCurrentUser();
+            OrderDto orderDto = orderDtoMapper.GetOrderDto(currentOrder);
             return orderDto;
         }
 
-        public IEnumerable<OrderDto> GetOrders()
+        public IEnumerable<OrderDto> GetCurrentCustomerOrders()
         {
-            IEnumerable<OrderDto> orders = orderStorage.GetOrders().Select(order => orderDtoMapper.GetOrderDto(order));
+            IEnumerable<OrderDto> orders = null;
+            if (userService.VerifyUserPermission(PermissionProvider.GetOrdersOfCurrentCustomer))
+            {
+                int customerId = userService.GetCurrentUser().Id;
+                orders = orderRepository.GetOrders().Where(order => order.CustomerId == customerId).Select(order => orderDtoMapper.GetOrderDto(order));
+            }
+            else
+            {
+                throw new PermissionException("You do not have permission to perform this action.");
+            }
+
             return orders;
         }
 
-        public OrderDto Create()
+        public OrderDto Get(string orderId)
         {
-            string orderBusinessId = Guid.NewGuid().ToString();
-            int currentUserId = userService.GetCurrentUser().Id;
-            Order newOrder = new Order(currentUserId, orderBusinessId);
-            orderStorage.Create(newOrder);
-            return orderDtoMapper.GetOrderDto(newOrder);
+            Order order = orderRepository.GetByBusinessId(orderId);
+            if (order == null)
+            {
+                throw new OrderNotFoundException("Order is not found.");
+            }
+
+            if (userService.VerifyUserPermission(PermissionProvider.GetOrdersOfCurrentCustomer))
+            {
+                if (order.CustomerId != userService.GetCurrentUser().Id)
+                {
+                    throw new OrderNotFoundException("Order is not found.");
+                }
+            }
+            else if (!userService.VerifyUserPermission(PermissionProvider.GetAllOrders))
+            {
+                throw new PermissionException("You do not have permission to perform this action."); 
+            }
+            OrderDto orderDto = orderDtoMapper.GetOrderDto(order);
+            return orderDto;
         }
         
-        public void Checkout(string orderBusinessId)
+        public IEnumerable<OrderDto> GetAllProcessingOrders()
         {
-            IPriceCalculator calculator = new PriceCalculator(productStorage);
-            Order order = orderStorage.GetByBusinessId(orderBusinessId);
-            order.Checkout(calculator);
-            orderStorage.Update(order);
+            IEnumerable<OrderDto> orders = null;
+            if (userService.VerifyUserPermission(PermissionProvider.GetAllOrders))
+            {
+                orders = orderRepository.GetOrders().Where(order => order.Status == Status.Processing).Select(order => orderDtoMapper.GetOrderDto(order));
+            }
+            else
+            {
+                throw new PermissionException("You do not have permission to perform this action.");
+            }
+
+            return orders;
         }
 
-        public void Accept(string orderBusinessId)
+        public void AddToCart(string productId)
         {
-            Order order = orderStorage.GetByBusinessId(orderBusinessId);
-            order.Accept();
-            orderStorage.Update(order);
+            if (!userService.VerifyUserPermission(PermissionProvider.ModifyOrderOfCurrentCustomer))
+            {
+                throw new PermissionException("You do not have permission to perform this action.");
+            }
+
+            Order order = GetCartOfCurrentUser();
+
+            Product product = productRepository.GetByBusinessId(productId);
+            if (product == null)
+            {
+                throw new ProductNotFoundException("Product is not found.");
+            }
+            order.AddProduct(productId, 1);
+            orderRepository.Update(order);
         }
 
-        public void Reject(string orderBusinessId)
+        public void RemoveFromCart(string productId)
         {
-            Order order = orderStorage.GetByBusinessId(orderBusinessId);
-            order.Reject();
-            orderStorage.Update(order);
+            if (!userService.VerifyUserPermission(PermissionProvider.ModifyOrderOfCurrentCustomer))
+            {
+                throw new PermissionException("You do not have permission to perform this action.");
+            }
+
+            Order order = GetCartOfCurrentUser();
+
+            order.RemoveProduct(productId);
+            orderRepository.Update(order);
         }
 
-        public void AddProductToOrder(string orderBusinessId, string productBusinessId, int quantity)
+        public void SetProductQuantity(string productBusinessId, int quantity)
         {
-            Order order = orderStorage.GetByBusinessId(orderBusinessId);
-            order.AddProduct(productBusinessId, quantity);
-            orderStorage.Update(order);
-        }
+            if (!userService.VerifyUserPermission(PermissionProvider.ModifyOrderOfCurrentCustomer))
+            {
+                throw new PermissionException("You do not have permission to perform this action.");
+            }
 
-        public void RemoveProductFromOrder(string orderBusinessId, string productBusinessId)
-        {
-            Order order = orderStorage.GetByBusinessId(orderBusinessId);
-            order.RemoveProduct(productBusinessId);
-            orderStorage.Update(order);
-        }
+            Order order = GetCartOfCurrentUser();
 
-        public void SetProductQuantity(string orderBusinessId, string productBusinessId, int quantity)
-        {
-            Order order = orderStorage.GetByBusinessId(orderBusinessId);
             order.SetProductQuantity(productBusinessId, quantity);
-            orderStorage.Update(order);
+            orderRepository.Update(order);
+        }
+                
+        public void Checkout(string orderId)
+        {
+            if (string.IsNullOrEmpty(orderId))
+            {
+                throw new ArgumentNullException("orderId");
+            }
+
+            Order order = orderRepository.GetByBusinessId(orderId);
+            if (order == null)
+            {
+                throw new OrderNotFoundException("Order is not found.");
+            }
+
+            if (userService.VerifyUserPermission(PermissionProvider.CheckoutOrderOfCurrentCustomer))
+            {
+                if (order.CustomerId != userService.GetCurrentUser().Id)
+                {
+                    throw new OrderNotFoundException("Order is not found.");
+                }
+            }
+            else
+            {
+                throw new PermissionException("You do not have permission to perform this action.");
+            }
+
+            IPriceCalculator calculator = new PriceCalculator(productRepository);
+            order.Checkout(calculator);
+            orderRepository.Update(order);
+        }
+
+        public void Accept(string orderId)
+        {
+            if (string.IsNullOrEmpty(orderId))
+            {
+                throw new ArgumentNullException("orderId");
+            }
+
+            Order order = orderRepository.GetByBusinessId(orderId);
+            if (order == null)
+            {
+                throw new OrderNotFoundException("Order is not found.");
+            }
+
+            if (!userService.VerifyUserPermission(PermissionProvider.AcceptOrderOfAnyCustomer))
+            {
+                throw new PermissionException("You do not have permission to perform this action.");
+            }
+
+            order.Accept();
+            orderRepository.Update(order);
+        }
+
+        public void Reject(string orderId)
+        {
+            if (string.IsNullOrEmpty(orderId))
+            {
+                throw new ArgumentNullException("orderId");
+            }
+
+            Order order = orderRepository.GetByBusinessId(orderId);
+            if (order == null)
+            {
+                throw new OrderNotFoundException("Order is not found.");
+            }
+
+            if (userService.VerifyUserPermission(PermissionProvider.RejectOrderOfAnyCustomer))
+            {
+                order.Reject();
+                orderRepository.Update(order);
+            }
+            else if (userService.VerifyUserPermission(PermissionProvider.RejectOrderOfCurrentCustomer))
+            {
+                if (order.CustomerId != userService.GetCurrentUser().Id)
+                {
+                    throw new OrderNotFoundException("Order is not found.");
+                }
+
+                order.Reject();
+                orderRepository.Update(order);
+            }
+            else
+            {
+                throw new PermissionException("You do not have permission to perform this action.");
+            }
+        }
+
+        private Order GetCartOfCurrentUser()
+        {
+            if (!userService.VerifyUserPermission(PermissionProvider.GetOrdersOfCurrentCustomer) ||
+                !userService.VerifyUserPermission(PermissionProvider.CreateOrderForCurrentCustomer))
+            {
+                throw new PermissionException("You do not have permission to perform this action.");
+            }
+
+
+            int currentCustomerId = userService.GetCurrentUser().Id;
+            Order currentOrder = orderRepository.GetOrders().FirstOrDefault(order => order.CustomerId == currentCustomerId && order.Status == Status.Open);
+            if (currentOrder == null)
+            {
+                string orderBusinessId = Guid.NewGuid().ToString();
+                currentOrder = new Order(currentCustomerId, orderBusinessId);
+                orderRepository.Create(currentOrder);
+            }
+
+            return currentOrder;
         }
     }
 }

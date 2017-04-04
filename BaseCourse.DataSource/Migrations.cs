@@ -17,7 +17,7 @@ namespace BaseCourse.DataSource
                 table => table
                     .Column<long>("Id", column => column.PrimaryKey().Identity())
                     .Column<int>("CustomerId", column => column.NotNull())
-                    .Column<string>("OrderBusinessId", column => column.Unique().NotNull().WithLength(36))
+                    .Column<string>("OrderBusinessId", column => column.NotNull().WithLength(36))
                     .Column<DateTime>("PlacingDateUtc", column => column.NotNull())
                     .Column<int>("Status", column => column.NotNull())
                     .Column<double>("TotalPrice", column => column.NotNull())
@@ -26,6 +26,8 @@ namespace BaseCourse.DataSource
             SchemaBuilder.CreateTable("OrderItemRecord",
                 table => table
                     .Column<long>("Id", column => column.PrimaryKey().Identity())
+                    .Column<long>("OrderId", column => column.NotNull())
+                    .Column<long>("ProductId", column => column.NotNull())
                     .Column<string>("OrderBusinessId", column => column.NotNull().WithLength(36))
                     .Column<string>("ProductBusinessId", column => column.NotNull().WithLength(36))
                     .Column<int>("Quantity", column => column.NotNull())
@@ -42,24 +44,25 @@ namespace BaseCourse.DataSource
             SchemaBuilder.CreateTable("ProductPriceRecord",
                 table => table
                     .Column<long>("Id", column => column.PrimaryKey().Identity())
+                    .Column<long>("ProductId", column => column.NotNull())
                     .Column<string>("ProductBusinessId", column => column.NotNull().WithLength(36))
                     .Column<double>("Price", column => column.NotNull())
                     .Column<DateTime>("EffectiveDateUtc", column => column.NotNull())
                     );
 
-            SchemaBuilder.CreateForeignKey("FK_ProductRecord_ProductPriceRecord",
-                "ProductRecord", new string[] { "ProductBusinessId" },
-                "ProductPriceRecord", new string[] { "ProductBusinessId" }
+            SchemaBuilder.CreateForeignKey("FK_ProductPriceRecord_ProductRecord",
+                "ProductPriceRecord", new string[] { "ProductId" },
+                "ProductRecord", new string[] { "Id" }
                 );
 
             SchemaBuilder.CreateForeignKey("FK_ProductRecord_OrderItemRecord",
-                "ProductRecord", new string[] { "ProductBusinessId" },
-                "OrderItemRecord", new string[] { "ProductBusinessId" }
+                "OrderItemRecord", new string[] { "ProductId" },
+                "ProductRecord", new string[] { "Id" }
                 );
 
             SchemaBuilder.CreateForeignKey("FK_OrderRecord_OrderItemRecord",
-                "OrderRecord", new string[] { "OrderBusinessId" },
-                "OrderItemRecord", new string[] { "OrderBusinessId" }
+                "OrderItemRecord", new string[] { "OrderId" },
+                "OrderRecord", new string[] { "Id" }
                 );
 
             return 1;

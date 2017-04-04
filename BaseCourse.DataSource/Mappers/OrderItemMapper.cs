@@ -11,15 +11,17 @@ namespace BaseCourse.DataSource.Mappers
     {
         public OrderItem GetOrderItem(OrderItemRecord orderItemRecord)
         {
-            return new OrderItem(orderItemRecord.ProductBusinessId, orderItemRecord.Quantity);
+            return new OrderItem(orderItemRecord.OrderBusinessId, orderItemRecord.ProductBusinessId, orderItemRecord.Quantity);
         }
 
-        public OrderItemRecord GetOrderItemRecord(long id, string orderBusinessId, OrderItem orderItem)
+        public OrderItemRecord GetOrderItemRecord(long id, long orderId, long productId, OrderItem orderItem)
         {
             OrderItemRecord record = new OrderItemRecord()
             {
                 Id = id,
-                OrderBusinessId = orderBusinessId,
+                OrderId = orderId,
+                ProductId = productId,
+                OrderBusinessId = orderItem.OrderBusinessId,
                 ProductBusinessId = orderItem.ProductBusinessId,
                 Quantity = orderItem.Quantity
             };

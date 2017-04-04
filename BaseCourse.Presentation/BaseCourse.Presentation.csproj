@@ -1,0 +1,438 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{4804D39A-1072-475E-856F-C2881D268152}</ProjectGuid>
+    <ProjectTypeGuids>{E53F8FEA-EAE0-44A6-8774-FFD645390401};{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>BaseCourse.Presentation</RootNamespace>
+    <AssemblyName>BaseCourse.Presentation</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <MvcBuildViews>false</MvcBuildViews>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <OldToolsVersion>4.0</OldToolsVersion>
+    <UpgradeBackupLocation />
+    <TargetFrameworkProfile />
+    <UseIISExpress>false</UseIISExpress>
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <CodeAnalysisRuleSet>..\..\..\OrchardBasicCorrectness.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.ComponentModel.DataAnnotations">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.Helpers.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Abstractions" />
+    <Reference Include="System.Web.Mvc, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\Microsoft.AspNet.Mvc.5.2.3\lib\net45\System.Web.Mvc.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\Microsoft.AspNet.Razor.3.2.3\lib\net45\System.Web.Razor.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.Routing" />
+    <Reference Include="System.Web.WebPages, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Deployment.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Xml.Linq" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Assets.json" />
+    <Content Include="Assets\Styles.less" />
+    <Content Include="Scripts\BaseCourseShop\app\Application.js" />
+    <Content Include="Scripts\BaseCourseShop\app\app.js" />
+    <Content Include="Scripts\BaseCourseShop\app\controller\ProductController.js" />
+    <Content Include="Scripts\BaseCourseShop\app\model\Order.js" />
+    <Content Include="Scripts\BaseCourseShop\app\model\OrderItem.js" />
+    <Content Include="Scripts\BaseCourseShop\app\model\Product.js" />
+    <Content Include="Scripts\BaseCourseShop\app\service\ProductService.js" />
+    <Content Include="Scripts\BaseCourseShop\app\store\ProductStore.js" />
+    <Content Include="Scripts\BaseCourseShop\app\viewmodel\ProductViewModel.js" />
+    <Content Include="Scripts\BaseCourseShop\app\view\CartView.js" />
+    <Content Include="Scripts\BaseCourseShop\app\view\ProductListView.js" />
+    <Content Include="Scripts\BaseCourseShop\app\view\PurchaseView.js" />
+    <Content Include="Scripts\deftjs\deft-debug.js" />
+    <Content Include="Scripts\extJs\ext-all-debug.js" />
+    <Content Include="Scripts\extJs\ext-all.js" />
+    <Content Include="Styles\images\boundlist\trigger-arrow.png" />
+    <Content Include="Styles\images\box\corners-blue.gif" />
+    <Content Include="Styles\images\box\corners.gif" />
+    <Content Include="Styles\images\box\l-blue.gif" />
+    <Content Include="Styles\images\box\l.gif" />
+    <Content Include="Styles\images\box\r-blue.gif" />
+    <Content Include="Styles\images\box\r.gif" />
+    <Content Include="Styles\images\box\tb-blue.gif" />
+    <Content Include="Styles\images\box\tb.gif" />
+    <Content Include="Styles\images\breadcrumb\default-arrow-open-rtl.gif" />
+    <Content Include="Styles\images\breadcrumb\default-arrow-open.gif" />
+    <Content Include="Styles\images\breadcrumb\default-arrow-rtl.gif" />
+    <Content Include="Styles\images\breadcrumb\default-arrow.gif" />
+    <Content Include="Styles\images\breadcrumb\default-scroll-left.gif" />
+    <Content Include="Styles\images\breadcrumb\default-scroll-right.gif" />
+    <Content Include="Styles\images\breadcrumb\default-split-arrow-open-rtl.gif" />
+    <Content Include="Styles\images\breadcrumb\default-split-arrow-open.gif" />
+    <Content Include="Styles\images\breadcrumb\default-split-arrow-over-rtl.gif" />
+    <Content Include="Styles\images\breadcrumb\default-split-arrow-over.gif" />
+    <Content Include="Styles\images\breadcrumb\default-split-arrow-rtl.gif" />
+    <Content Include="Styles\images\breadcrumb\default-split-arrow.gif" />
+    <Content Include="Styles\images\button\arrow-rtl.gif" />
+    <Content Include="Styles\images\button\arrow.gif" />
+    <Content Include="Styles\images\button\btn.gif" />
+    <Content Include="Styles\images\button\group-cs.gif" />
+    <Content Include="Styles\images\button\group-lr.gif" />
+    <Content Include="Styles\images\button\group-tb.gif" />
+    <Content Include="Styles\images\button\s-arrow-b-noline.gif" />
+    <Content Include="Styles\images\button\s-arrow-b.gif" />
+    <Content Include="Styles\images\button\s-arrow-bo.gif" />
+    <Content Include="Styles\images\button\s-arrow-light-rtl.gif" />
+    <Content Include="Styles\images\button\s-arrow-light.gif" />
+    <Content Include="Styles\images\button\s-arrow-noline-rtl.gif" />
+    <Content Include="Styles\images\button\s-arrow-noline.gif" />
+    <Content Include="Styles\images\button\s-arrow-o-rtl.gif" />
+    <Content Include="Styles\images\button\s-arrow-o.gif" />
+    <Content Include="Styles\images\button\s-arrow-rtl.gif" />
+    <Content Include="Styles\images\button\s-arrow.gif" />
+    <Content Include="Styles\images\dd\drop-add.gif" />
+    <Content Include="Styles\images\dd\drop-no.gif" />
+    <Content Include="Styles\images\dd\drop-yes.gif" />
+    <Content Include="Styles\images\editor\tb-sprite.gif" />
+    <Content Include="Styles\images\form\checkbox.gif" />
+    <Content Include="Styles\images\form\clear-trigger-rtl.gif" />
+    <Content Include="Styles\images\form\clear-trigger.gif" />
+    <Content Include="Styles\images\form\date-trigger-rtl.gif" />
+    <Content Include="Styles\images\form\date-trigger.gif" />
+    <Content Include="Styles\images\form\error-tip-corners.gif" />
+    <Content Include="Styles\images\form\exclamation.gif" />
+    <Content Include="Styles\images\form\radio.gif" />
+    <Content Include="Styles\images\form\search-trigger-rtl.gif" />
+    <Content Include="Styles\images\form\search-trigger.gif" />
+    <Content Include="Styles\images\form\spinner-rtl.gif" />
+    <Content Include="Styles\images\form\spinner-small-rtl.gif" />
+    <Content Include="Styles\images\form\spinner-small.gif" />
+    <Content Include="Styles\images\form\spinner.gif" />
+    <Content Include="Styles\images\form\tag-field-item-close.gif" />
+    <Content Include="Styles\images\form\text-bg.gif" />
+    <Content Include="Styles\images\form\trigger-rtl.gif" />
+    <Content Include="Styles\images\form\trigger-square-rtl.gif" />
+    <Content Include="Styles\images\form\trigger-square.gif" />
+    <Content Include="Styles\images\form\trigger-tpl-rtl.gif" />
+    <Content Include="Styles\images\form\trigger-tpl.gif" />
+    <Content Include="Styles\images\form\trigger.gif" />
+    <Content Include="Styles\images\grid\arrow-left-white.gif" />
+    <Content Include="Styles\images\grid\arrow-right-white.gif" />
+    <Content Include="Styles\images\grid\cell-special-bg.gif" />
+    <Content Include="Styles\images\grid\cell-special-bg.png" />
+    <Content Include="Styles\images\grid\cell-special-selected-bg.gif" />
+    <Content Include="Styles\images\grid\cell-special-selected-bg.png" />
+    <Content Include="Styles\images\grid\col-move-bottom.gif" />
+    <Content Include="Styles\images\grid\col-move-top.gif" />
+    <Content Include="Styles\images\grid\columns.gif" />
+    <Content Include="Styles\images\grid\dd-insert-arrow-left.gif" />
+    <Content Include="Styles\images\grid\dd-insert-arrow-left.png" />
+    <Content Include="Styles\images\grid\dd-insert-arrow-right.gif" />
+    <Content Include="Styles\images\grid\dd-insert-arrow-right.png" />
+    <Content Include="Styles\images\grid\dirty-rtl.gif" />
+    <Content Include="Styles\images\grid\dirty.gif" />
+    <Content Include="Styles\images\grid\done.gif" />
+    <Content Include="Styles\images\grid\drop-no.gif" />
+    <Content Include="Styles\images\grid\drop-yes.gif" />
+    <Content Include="Styles\images\grid\filters\equals.png" />
+    <Content Include="Styles\images\grid\filters\find.png" />
+    <Content Include="Styles\images\grid\filters\greater_than.png" />
+    <Content Include="Styles\images\grid\filters\less_than.png" />
+    <Content Include="Styles\images\grid\footer-bg.gif" />
+    <Content Include="Styles\images\grid\grid-blue-hd.gif" />
+    <Content Include="Styles\images\grid\grid-blue-split.gif" />
+    <Content Include="Styles\images\grid\grid-hrow.gif" />
+    <Content Include="Styles\images\grid\grid-loading.gif" />
+    <Content Include="Styles\images\grid\grid-split.gif" />
+    <Content Include="Styles\images\grid\grid-vista-hd.gif" />
+    <Content Include="Styles\images\grid\grid3-hd-btn-left.gif" />
+    <Content Include="Styles\images\grid\grid3-hd-btn.gif" />
+    <Content Include="Styles\images\grid\grid3-hrow-over.gif" />
+    <Content Include="Styles\images\grid\grid3-hrow.gif" />
+    <Content Include="Styles\images\grid\grid3-rowheader.gif" />
+    <Content Include="Styles\images\grid\group-by.gif" />
+    <Content Include="Styles\images\grid\group-collapse.gif" />
+    <Content Include="Styles\images\grid\group-expand-sprite.gif" />
+    <Content Include="Styles\images\grid\group-expand.gif" />
+    <Content Include="Styles\images\grid\hd-pop.gif" />
+    <Content Include="Styles\images\grid\hmenu-asc.gif" />
+    <Content Include="Styles\images\grid\hmenu-desc.gif" />
+    <Content Include="Styles\images\grid\hmenu-lock.gif" />
+    <Content Include="Styles\images\grid\hmenu-lock.png" />
+    <Content Include="Styles\images\grid\hmenu-unlock.gif" />
+    <Content Include="Styles\images\grid\hmenu-unlock.png" />
+    <Content Include="Styles\images\grid\invalid_line.gif" />
+    <Content Include="Styles\images\grid\loading.gif" />
+    <Content Include="Styles\images\grid\mso-hd.gif" />
+    <Content Include="Styles\images\grid\nowait.gif" />
+    <Content Include="Styles\images\grid\page-first-disabled.gif" />
+    <Content Include="Styles\images\grid\page-first.gif" />
+    <Content Include="Styles\images\grid\page-last-disabled.gif" />
+    <Content Include="Styles\images\grid\page-last.gif" />
+    <Content Include="Styles\images\grid\page-next-disabled.gif" />
+    <Content Include="Styles\images\grid\page-next.gif" />
+    <Content Include="Styles\images\grid\page-prev-disabled.gif" />
+    <Content Include="Styles\images\grid\page-prev.gif" />
+    <Content Include="Styles\images\grid\pick-button.gif" />
+    <Content Include="Styles\images\grid\property-cell-bg.gif" />
+    <Content Include="Styles\images\grid\property-cell-selected-bg.gif" />
+    <Content Include="Styles\images\grid\refresh-disabled.gif" />
+    <Content Include="Styles\images\grid\refresh.gif" />
+    <Content Include="Styles\images\grid\row-check-sprite.gif" />
+    <Content Include="Styles\images\grid\row-expand-sprite.gif" />
+    <Content Include="Styles\images\grid\row-over.gif" />
+    <Content Include="Styles\images\grid\row-sel.gif" />
+    <Content Include="Styles\images\grid\sort-hd.gif" />
+    <Content Include="Styles\images\grid\sort_asc.gif" />
+    <Content Include="Styles\images\grid\sort_desc.gif" />
+    <Content Include="Styles\images\grid\wait.gif" />
+    <Content Include="Styles\images\layout\mini-bottom.gif" />
+    <Content Include="Styles\images\layout\mini-left.gif" />
+    <Content Include="Styles\images\layout\mini-right.gif" />
+    <Content Include="Styles\images\layout\mini-top.gif" />
+    <Content Include="Styles\images\menu\default-checked.gif" />
+    <Content Include="Styles\images\menu\default-group-checked.gif" />
+    <Content Include="Styles\images\menu\default-menu-parent-left.gif" />
+    <Content Include="Styles\images\menu\default-menu-parent.gif" />
+    <Content Include="Styles\images\menu\default-menubar-menu-parent.gif" />
+    <Content Include="Styles\images\menu\default-scroll-bottom.gif" />
+    <Content Include="Styles\images\menu\default-scroll-top.gif" />
+    <Content Include="Styles\images\menu\default-unchecked.gif" />
+    <Content Include="Styles\images\shared\blue-loading.gif" />
+    <Content Include="Styles\images\shared\calendar.gif" />
+    <Content Include="Styles\images\shared\glass-bg.gif" />
+    <Content Include="Styles\images\shared\hd-sprite.gif" />
+    <Content Include="Styles\images\shared\icon-error.gif" />
+    <Content Include="Styles\images\shared\icon-info.gif" />
+    <Content Include="Styles\images\shared\icon-question.gif" />
+    <Content Include="Styles\images\shared\icon-warning.gif" />
+    <Content Include="Styles\images\shared\large-loading.gif" />
+    <Content Include="Styles\images\shared\left-btn.gif" />
+    <Content Include="Styles\images\shared\loading-balls.gif" />
+    <Content Include="Styles\images\shared\right-btn.gif" />
+    <Content Include="Styles\images\shared\shadow-c.png" />
+    <Content Include="Styles\images\shared\shadow-lr.png" />
+    <Content Include="Styles\images\shared\shadow.png" />
+    <Content Include="Styles\images\shared\warning.gif" />
+    <Content Include="Styles\images\sizer\e-handle-dark.gif" />
+    <Content Include="Styles\images\sizer\e-handle.gif" />
+    <Content Include="Styles\images\sizer\ne-handle-dark.gif" />
+    <Content Include="Styles\images\sizer\ne-handle.gif" />
+    <Content Include="Styles\images\sizer\nw-handle-dark.gif" />
+    <Content Include="Styles\images\sizer\nw-handle.gif" />
+    <Content Include="Styles\images\sizer\s-handle-dark.gif" />
+    <Content Include="Styles\images\sizer\s-handle.gif" />
+    <Content Include="Styles\images\sizer\se-handle-dark.gif" />
+    <Content Include="Styles\images\sizer\se-handle.gif" />
+    <Content Include="Styles\images\sizer\square.gif" />
+    <Content Include="Styles\images\sizer\sw-handle-dark.gif" />
+    <Content Include="Styles\images\sizer\sw-handle.gif" />
+    <Content Include="Styles\images\slider\slider-bg.png" />
+    <Content Include="Styles\images\slider\slider-thumb.png" />
+    <Content Include="Styles\images\slider\slider-v-bg.png" />
+    <Content Include="Styles\images\slider\slider-v-thumb.png" />
+    <Content Include="Styles\images\tab-bar\default-more-left.gif" />
+    <Content Include="Styles\images\tab-bar\default-more.gif" />
+    <Content Include="Styles\images\tab-bar\default-scroll-bottom-left.gif" />
+    <Content Include="Styles\images\tab-bar\default-scroll-bottom-right.gif" />
+    <Content Include="Styles\images\tab-bar\default-scroll-left-bottom.gif" />
+    <Content Include="Styles\images\tab-bar\default-scroll-left-top.gif" />
+    <Content Include="Styles\images\tab-bar\default-scroll-right-bottom.gif" />
+    <Content Include="Styles\images\tab-bar\default-scroll-right-top.gif" />
+    <Content Include="Styles\images\tab-bar\default-scroll-top-left.gif" />
+    <Content Include="Styles\images\tab-bar\default-scroll-top-right.gif" />
+    <Content Include="Styles\images\tab\tab-default-close.gif" />
+    <Content Include="Styles\images\toolbar\default-more-left.gif" />
+    <Content Include="Styles\images\toolbar\default-more.gif" />
+    <Content Include="Styles\images\toolbar\default-scroll-bottom.gif" />
+    <Content Include="Styles\images\toolbar\default-scroll-left.gif" />
+    <Content Include="Styles\images\toolbar\default-scroll-right.gif" />
+    <Content Include="Styles\images\toolbar\default-scroll-top.gif" />
+    <Content Include="Styles\images\toolbar\footer-more-left.gif" />
+    <Content Include="Styles\images\toolbar\footer-more.gif" />
+    <Content Include="Styles\images\toolbar\footer-scroll-left.gif" />
+    <Content Include="Styles\images\toolbar\footer-scroll-right.gif" />
+    <Content Include="Styles\images\tools\tool-sprite-tpl.gif" />
+    <Content Include="Styles\images\tools\tool-sprites.gif" />
+    <Content Include="Styles\images\tools\tools-sprites-trans.gif" />
+    <Content Include="Styles\images\tree\arrows-rtl.gif" />
+    <Content Include="Styles\images\tree\arrows.gif" />
+    <Content Include="Styles\images\tree\drop-above.gif" />
+    <Content Include="Styles\images\tree\drop-add.gif" />
+    <Content Include="Styles\images\tree\drop-append.gif" />
+    <Content Include="Styles\images\tree\drop-below.gif" />
+    <Content Include="Styles\images\tree\drop-between.gif" />
+    <Content Include="Styles\images\tree\drop-no.gif" />
+    <Content Include="Styles\images\tree\drop-over.gif" />
+    <Content Include="Styles\images\tree\drop-under.gif" />
+    <Content Include="Styles\images\tree\drop-yes.gif" />
+    <Content Include="Styles\images\tree\elbow-end-minus-rtl.gif" />
+    <Content Include="Styles\images\tree\elbow-end-minus.gif" />
+    <Content Include="Styles\images\tree\elbow-end-plus-rtl.gif" />
+    <Content Include="Styles\images\tree\elbow-end-plus.gif" />
+    <Content Include="Styles\images\tree\elbow-end-rtl.gif" />
+    <Content Include="Styles\images\tree\elbow-end.gif" />
+    <Content Include="Styles\images\tree\elbow-line-rtl.gif" />
+    <Content Include="Styles\images\tree\elbow-line.gif" />
+    <Content Include="Styles\images\tree\elbow-minus-nl-rtl.gif" />
+    <Content Include="Styles\images\tree\elbow-minus-nl.gif" />
+    <Content Include="Styles\images\tree\elbow-minus-rtl.gif" />
+    <Content Include="Styles\images\tree\elbow-minus.gif" />
+    <Content Include="Styles\images\tree\elbow-plus-nl-rtl.gif" />
+    <Content Include="Styles\images\tree\elbow-plus-nl.gif" />
+    <Content Include="Styles\images\tree\elbow-plus-rtl.gif" />
+    <Content Include="Styles\images\tree\elbow-plus.gif" />
+    <Content Include="Styles\images\tree\elbow-rtl.gif" />
+    <Content Include="Styles\images\tree\elbow.gif" />
+    <Content Include="Styles\images\tree\folder-open-rtl.gif" />
+    <Content Include="Styles\images\tree\folder-open.gif" />
+    <Content Include="Styles\images\tree\folder-rtl.gif" />
+    <Content Include="Styles\images\tree\folder.gif" />
+    <Content Include="Styles\images\tree\leaf-rtl.gif" />
+    <Content Include="Styles\images\tree\leaf.gif" />
+    <Content Include="Styles\images\tree\loading.gif" />
+    <Content Include="Styles\images\tree\s.gif" />
+    <Content Include="Styles\images\util\splitter\mini-bottom.gif" />
+    <Content Include="Styles\images\util\splitter\mini-left.gif" />
+    <Content Include="Styles\images\util\splitter\mini-right.gif" />
+    <Content Include="Styles\images\util\splitter\mini-top.gif" />
+    <Content Include="Styles\Style.css" />
+    <Content Include="Styles\theme-classic-all.css" />
+    <Content Include="Styles\theme-classic-all_1.css" />
+    <Content Include="Styles\theme-classic-all_2.css" />
+    <Content Include="Web.config" />
+    <Content Include="Scripts\Web.config" />
+    <Content Include="Styles\Web.config" />
+    <Content Include="Properties\AssemblyInfo.cs" />
+    <Content Include="Module.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Orchard\Orchard.Framework.csproj">
+      <Project>{2D1D92BB-4555-4CBE-8D0E-63563D6CE4C6}</Project>
+      <Name>Orchard.Framework</Name>
+      <Private>false</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Core\Orchard.Core.csproj">
+      <Project>{9916839C-39FC-4CEB-A5AF-89CA7E87119F}</Project>
+      <Name>Orchard.Core</Name>
+      <Private>false</Private>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Models\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="ResourceManifest.cs" />
+    <Compile Include="Routes.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Home\Index.cshtml" />
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target> -->
+  <Target Name="AfterBuild" DependsOnTargets="AfterBuildCompiler">
+    <PropertyGroup>
+      <AreasManifestDir>$(ProjectDir)\..\Manifests</AreasManifestDir>
+    </PropertyGroup>
+    <!-- If this is an area child project, uncomment the following line:
+    <CreateAreaManifest AreaName="$(AssemblyName)" AreaType="Child" AreaPath="$(ProjectDir)" ManifestPath="$(AreasManifestDir)" ContentFiles="@(Content)" />
+    -->
+    <!-- If this is an area parent project, uncomment the following lines:
+    <CreateAreaManifest AreaName="$(AssemblyName)" AreaType="Parent" AreaPath="$(ProjectDir)" ManifestPath="$(AreasManifestDir)" ContentFiles="@(Content)" />
+    <CopyAreaManifests ManifestPath="$(AreasManifestDir)" CrossCopy="false" RenameViews="true" />
+    -->
+  </Target>
+  <Target Name="AfterBuildCompiler" Condition="'$(MvcBuildViews)'=='true'">
+    <AspNetCompiler VirtualPath="temp" PhysicalPath="$(ProjectDir)\..\$(ProjectName)" />
+  </Target>
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>False</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>45979</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>
+          </IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>True</UseCustomServer>
+          <CustomServerUrl>http://orchard.codeplex.com</CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+</Project>

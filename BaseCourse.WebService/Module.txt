@@ -1,0 +1,11 @@
+﻿Name: BaseCourse.WebService
+AntiForgery: enabled
+Author: The Orchard Team
+Website: http://orchardproject.net
+Version: 1.0
+OrchardVersion: 1.0
+Description: Description for the module
+Dependencies: BaseCourse.Application
+Features:
+    BaseCourse.WebService:
+        Description: Description for feature BaseCourse.WebService.

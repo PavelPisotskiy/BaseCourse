@@ -14,11 +14,12 @@ namespace BaseCourse.DataSource.Mappers
             return new ProductPrice(productPriceRecord.ProductBusinessId, productPriceRecord.Price, productPriceRecord.EffectiveDateUtc);
         }
 
-        public ProductPriceRecord GetProductPriceRecord(long id, ProductPrice productPrice)
+        public ProductPriceRecord GetProductPriceRecord(long id, long productId, ProductPrice productPrice)
         {
             ProductPriceRecord record = new ProductPriceRecord()
             {
                 Id = id,
+                ProductId = productId,
                 ProductBusinessId = productPrice.ProductBusinessId,
                 EffectiveDateUtc = productPrice.EffectiveDateUtc,
                 Price = productPrice.Price

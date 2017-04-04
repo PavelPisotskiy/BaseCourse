@@ -20,8 +20,9 @@ namespace BaseCourse.Application.Mappers
         {
             OrderDto orderDto = new OrderDto()
             {
+                CustomerId = order.CustomerId,
                 OrderBusinessId = order.OrderBusinessId,
-                OrderItems = order.OrderItems.Select(orderItem => orderItemDtoMapper.GetOrderItemDto(orderItem)),
+                OrderItems = order.OrderItems.Select(orderItem => orderItemDtoMapper.GetOrderItemDto(orderItem, order.OrderBusinessId)),
                 PlacingDateUtc = order.PlacingDateUtc,
                 Status = (StatusDto)order.Status,
                 TotalPrice = order.TotalPrice
