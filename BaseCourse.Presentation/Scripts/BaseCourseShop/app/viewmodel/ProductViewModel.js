@@ -5,21 +5,20 @@
     stores: {
         products: {
             type: 'productstore'
+        },
+        orderItems: {
+            type: 'orderitemstore'
         }
     },
     links: {
         cart: {
             type: 'BaseCourseShop.model.Order',
             create: true
-        }
-    },
-
-    formulas: {
-        totalPrice: {
-            bind: '{cart.totalPrice}',
-            get: function (totalPrice) {
-                return 'Total price: ' + totalPrice;
-            }
+        },
+        cartTotalPrice: {
+            type: 'BaseCourseShop.model.CartTotalPrice',
+            create: true
         }
     }
+
 });

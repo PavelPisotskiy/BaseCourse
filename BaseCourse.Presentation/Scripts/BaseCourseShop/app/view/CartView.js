@@ -11,26 +11,94 @@
         ProductService: null
     },
 
-    bind:'{cart.orderItems}',
-    reference: 'panelCart',
+    bind:'{orderItems}',
     bbar: [ 
     {
         xtype: 'label',
-        bind: '{totalPrice}',
-    }, '->', {
+        bind: 'Total price: {cartTotalPrice.totalPrice}',
+    },
+    '->',
+    {
         xtype: 'button',
         text: 'Checkout',
-        cls: 'button button-small'
+        cls: 'button button-small',
+        handler: 'checkout'
     }],
 
     columns: [
-            { header: 'Name', dataIndex: 'productName', flex: 1 },
-            { header: 'Price', dataIndex: 'productPrice', flex: 1 },
-            { header: 'Quantity', dataIndex: 'quantity', flex: 1 },
             {
-                header: 'Units',
-                dataIndex: 'productUnits',
+                header: 'Name',
+                dataIndex: 'product',
+                flex: 1,
+                renderer: function (val, meta, rec) {
+                    if (val) {
+                        return val.get('name');
+                    }
+                    return '';
+                }
+            },
+            {
+                header: 'Price',
+                dataIndex: 'product',
+                flex: 1,
+                renderer: function (val, meta, rec) {
+                    if (val) {
+                        return val.get('price');
+                    }
+                    return '';
+                }
+            },
+            {
+                xtype: 'actioncolumn',
+                width: 25,
+                align: 'center',
+                sortable: false,
+                items: [
+                {
+                    tooltip: 'Decrement',
+                    icon: '../Modules/BaseCourse.Presentation/Styles/images/dd/minus.png',
+                    handler: 'decrementProductQuantity'
+                }]
+            },
+            {
+                header: 'Quantity',
+                align: 'center',
+                dataIndex: 'quantity',
                 flex: 1
             },
+            {
+                xtype: 'actioncolumn',
+                width: 25,
+                align: 'center',
+                items: [
+                {
+                    tooltip:'Increment',
+                    icon: '../Modules/BaseCourse.Presentation/Styles/images/dd/plus.png',
+                    handler: 'incrementProductQuantity'
+                }]
+            },
+            {
+                header: 'Units',
+                dataIndex: 'product',
+                flex: 1,
+                renderer: function (val, meta, rec) {
+                    if (val) {
+                        return val.get('units');
+                    }
+                    return '';
+                }
+            },
+            {
+                xtype: 'actioncolumn',
+                width: 25,
+                align: 'center',
+                items: [
+                {
+                    
+                    tooltip:'Remove from cart',
+                    icon: '../Modules/BaseCourse.Presentation/Styles/images/dd/delete.png',
+                    handler: 'removeProductFromCart'
+                }]
+            }
     ],
 });

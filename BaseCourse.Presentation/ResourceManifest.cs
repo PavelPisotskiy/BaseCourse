@@ -27,13 +27,20 @@ namespace BaseCourse.Presentation
                 .SetUrl("BaseCourseShop/app/model/OrderItem.js");
             manifest.DefineScript("orderModel")
                 .SetUrl("BaseCourseShop/app/model/Order.js");
+            manifest.DefineScript("cartTotalPrice")
+                .SetUrl("BaseCourseShop/app/model/CartTotalPrice.js");
 
             //Stores
             manifest.DefineScript("productStore")
                 .SetUrl("BaseCourseShop/app/store/ProductStore.js");
+            manifest.DefineScript("orderItemStore")
+                .SetUrl("BaseCourseShop/app/store/OrderItemStore.js");
+            manifest.DefineScript("ordersHistoryStore")
+                .SetUrl("BaseCourseShop/app/store/OrdersHistoryStore.js");
 
             //ViewModel
             manifest.DefineScript("productViewModel").SetUrl("BaseCourseShop/app/viewmodel/ProductViewModel.js");
+            manifest.DefineScript("ordersHistoryViewModel").SetUrl("BaseCourseShop/app/viewmodel/OrdersHistoryViewModel.js");
 
             //View
             manifest.DefineScript("productListView")
@@ -42,10 +49,15 @@ namespace BaseCourse.Presentation
                 .SetUrl("BaseCourseShop/app/view/CartView.js");
             manifest.DefineScript("purchaseView")
                 .SetUrl("BaseCourseShop/app/view/PurchaseView.js");
+            manifest.DefineScript("ordersHistoryView")
+                .SetUrl("BaseCourseShop/app/view/OrdersHistoryView.js");
+            manifest.DefineScript("mainCustomerView")
+                .SetUrl("BaseCourseShop/app/view/MainCustomerView.js");
 
 
             //Services
             manifest.DefineScript("productService").SetUrl("BaseCourseShop/app/service/ProductService.js");
+            manifest.DefineScript("orderService").SetUrl("BaseCourseShop/app/service/OrderService.js");
 
             //Application
             manifest.DefineScript("application").SetUrl("BaseCourseShop/app/Application.js");
@@ -61,18 +73,25 @@ namespace BaseCourse.Presentation
                                  "productModel",
                                  "orderItemModel",
                                  "orderModel",
+                                 "cartTotalPrice",
 
                                  "productStore",
+                                 "orderItemStore",
+                                 "ordersHistoryStore",
 
                                  "productViewModel",
+                                 "ordersHistoryViewModel",
 
                                  "productListView",
                                  "cartView",
                                  "purchaseView",
+                                 "ordersHistoryView",
+                                 "mainCustomerView",
 
                                  "productController",
 
                                  "productService",
+                                 "orderService",
 
                                  "application");
         }

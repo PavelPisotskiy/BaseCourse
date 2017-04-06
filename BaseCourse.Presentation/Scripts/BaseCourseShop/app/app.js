@@ -15,10 +15,14 @@ Ext.application({
             ProductService: {
                 className: 'BaseCourseShop.service.ProductService',
                 singleton: true
+            },
+            OrderService: {
+                className: 'BaseCourseShop.service.OrderService',
+                singleton: true
             }
         });
 
-        Ext.create('BaseCourseShop.view.PurchaseView', {
+        Ext.create('BaseCourseShop.view.MainCustomerView', {
             renderTo: Ext.getDom('content')
         });
     }

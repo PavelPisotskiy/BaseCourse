@@ -21,5 +21,6 @@ namespace BaseCourse.Application.Interfaces
         void Checkout(string orderId);
         void Reject(string orderId);
         void Accept(string orderId);
+        double GetCartTotalPrice();
     }
 }

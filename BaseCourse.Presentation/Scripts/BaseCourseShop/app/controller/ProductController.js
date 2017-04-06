@@ -4,16 +4,24 @@
     alias: 'controller.productcontroller',
 
     mixins: ['Deft.mixin.Injectable'],
-    inject: ['ProductService'],
+    inject: ['ProductService', 'OrderService'],
 
     config: {
-        ProductService: null
+        ProductService: null,
+        OrderService: null
     },
 
     initViewModel: function (model) {
         this.loadProductList();
-        //       this.loadCart();
-        
+        this.loadOrderItems();
+        this.loadCartTotalPrice();
+    },
+
+    loadCartTotalPrice: function () {
+        var model = this.getViewModel();
+        var product = model.get('cartTotalPrice');
+        product.getProxy();
+        product.load();
     },
 
     loadProductList: function () {
@@ -23,85 +31,115 @@
         product.reload();
     },
 
-    loadCart: function(){
-        var cart = this.getViewModel().get('cart');
-        cart.load();
-        //var me = this;
-        //var cart = this.getViewModel().get('cart');
-        //cart.getProxy();
-        //cart.load();
-       // cart.getProxy();
-       // me.lookupReference('panelCart').getView().getStore().removeAll();
-        //cart.load({
-        //    scope: this,
-        //    failure: function (record, operation) {
-        //        // do something if the load failed
-        //    },
-        //    success: function (record, operation) {
-        //        //me.lookupReference('panelCart').getView().refresh();
-        //        console.log('231');
-
-        //        //var me = this;
-        //        var orderItems = record.orderItems();
-        //        //for (var i = 0; i < orderItems.count() ; i++) {
-        //        //    var foundOrderItem = orderItems.getAt(i);
-        //        //    var productPromise = this.getProductService().getProductById(foundOrderItem.get('productBusinessId'));
-        //        //    productPromise.then(
-        //        //    function (productJson) {
-        //        //        var productObj = JSON.parse(productJson);
-
-        //        //        var product = Ext.create('BaseCourseShop.model.Product', {
-        //        //            productBusinessId: productObj.productBusinessId,
-        //        //            name: productObj.name,
-        //        //            units:  productObj.units,
-        //        //            price: productObj.price,
-        //        //        });
-                        
-        //        //        foundOrderItem.set('productName', product.get('name'));
-        //        //        foundOrderItem.set('productUnits', product.get('units'));
-        //        //        foundOrderItem.set('productPrice', product.get('price'));
-        //        //    },
-        //        //    function (error) {
-        //        //        var resp = JSON.parse(error);
-        //        //        Ext.Msg.alert('Error Message', resp.message);
-        //        //    });
-        //        //}
-        //    },
-        //    callback: function (record, operation, success) {
-        //        // do something whether the load succeeded or failed
-        //    }
-        //});
-
-        console.log('s');
+    loadOrderItems: function () {
+        var me = this;
+        var model = this.getViewModel();
+        var product = model.get('orderItems');
+        product.getProxy();
+        product.reload({
+            callback: function (records, options, success) {
+                if (success) {
+                    Ext.each(records, function (value) {
+                        var productPromise = me.getProductService().getProductById(value.get('productBusinessId'));
+                        productPromise.then(
+                            function (productJson) {
+                                var productObj = new BaseCourseShop.model.Product(JSON.parse(productJson));
+                                value.set('product', productObj);
+                                value.commit();
+                            },
+                            function (error) {
+                                var resp = JSON.parse(error);
+                                Ext.Msg.alert('Error Message', resp.message);
+                            });
+                    });
+                }
+            }
+        });
     },
-
-    
 
     onAddOneProductToCart: function (btn) {
         var me = this;
         var productBusinessId = btn.getWidgetRecord().get('productBusinessId');
-        var promise = this.getProductService().AddToCart(productBusinessId);
+        var promise = this.getOrderService().AddToCart(productBusinessId);
         promise.then(
                     function (json) {
-                        me.loadCart();
+                        me.loadOrderItems();
+                        me.loadCartTotalPrice();
                     },
                     function (error) {
                         var resp = JSON.parse(error);
                         Ext.Msg.alert('Error Message', resp.message);
                     });
-        //var cart = this.getViewModel().get('cart');
-        //var product = cart.get('OrderItems');
-        //var productItem = product.getById(productBusinessId);
+    },
 
-        //var promise = this.getOrderService().UpdateCart(productBusinessId);
-        //promise.then(function (response) {
+    removeProductFromCart: function (view, rowIndex, colIndex, item, e, record, row) {
+        var me = this;
+        var promise = this.getOrderService().RemoveFromCart(record.get('productBusinessId'));
+        promise.then(
+                    function (json) {
+                        me.loadOrderItems();
+                        me.loadCartTotalPrice();
+                    },
+                    function (error) {
+                        var resp = JSON.parse(error);
+                        Ext.Msg.alert('Error Message', resp.message);
+                    });
+    },
 
-        //    var resp = JSON.parse(response);
-        //    if (!resp.success) {
-        //        Ext.Msg.alert('Error Message', resp.message);
-        //    }
+    incrementProductQuantity: function (view, rowIndex, colIndex, item, e, record, row) {
+        var me = this;
+        var promise = this.getOrderService().SetProductQuantity(record.get('productBusinessId'), record.get('quantity') + 1);
+        promise.then(
+                    function (json) {
+                        me.loadOrderItems();
+                        me.loadCartTotalPrice();
+                    },
+                    function (error) {
+                        var resp = JSON.parse(error);
+                        Ext.Msg.alert('Error Message', resp.message);
+                    });
+    },
 
-        //    me.loadCart();
-        //});
-    }
+    decrementProductQuantity: function (view, rowIndex, colIndex, item, e, record, row) {
+        var me = this;
+        if (record.get('quantity') > 1) {
+            var promise = this.getOrderService().SetProductQuantity(record.get('productBusinessId'), record.get('quantity') - 1);
+            promise.then(
+                        function (json) {
+                            me.loadOrderItems();
+                            me.loadCartTotalPrice();
+                        },
+                        function (error) {
+                            var resp = JSON.parse(error);
+                            Ext.Msg.alert('Error Message', resp.message);
+                        });
+        }
+    },
+
+    checkout: function () {
+        var me = this;
+        var model = this.getViewModel();
+        var cart = model.get('cart');
+        cart.load({
+            scope: this,
+            callback: function (record, operation, success) {
+                if (success) {
+                    var orderId = record.get('orderBusinessId');
+                    var promise = me.getOrderService().Checkout(orderId);
+                    promise.then(
+                                function (json) {
+                                    me.loadOrderItems();
+                                    me.loadCartTotalPrice();
+                                },
+                                function (error) {
+                                    var resp = JSON.parse(error);
+                                    Ext.Msg.alert('Error Message', resp.message);
+                                });
+                } else {
+                    console.log('error');
+                }
+            }
+        });
+        
+    },
 });

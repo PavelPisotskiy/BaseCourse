@@ -47,7 +47,7 @@ namespace BaseCourse.WebService.Controllers.Api
             try
             {
                 var orders = orderService.GetCurrentCustomerOrders();
-                return Request.CreateResponse(HttpStatusCode.OK, orders);
+                return Request.CreateResponse(HttpStatusCode.OK, new { success = true, orders = orders });
             }
             catch (PermissionException ex)
             {
@@ -196,6 +196,20 @@ namespace BaseCourse.WebService.Controllers.Api
             catch (OrderNotFoundException ex)
             {
                 return Request.CreateResponse(HttpStatusCode.NotFound, new HttpError(ex.Message));
+            }
+            catch (PermissionException ex)
+            {
+                return Request.CreateResponse(HttpStatusCode.Forbidden, new HttpError(ex.Message));
+            }
+        }
+
+        [HttpGet, Route("api/Order/GetCartTotalPrice")]
+        public HttpResponseMessage GetCartTotalPrice()
+        {
+            try
+            {
+                var totalPrice = orderService.GetCartTotalPrice();
+                return Request.CreateResponse(HttpStatusCode.OK, new { success = true, totalPrice = Math.Round(totalPrice,2) });
             }
             catch (PermissionException ex)
             {

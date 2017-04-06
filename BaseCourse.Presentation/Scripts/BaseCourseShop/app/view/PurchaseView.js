@@ -1,6 +1,6 @@
 ﻿Ext.define('BaseCourseShop.view.PurchaseView', {
     extend: 'Ext.Panel',
-    alias: 'widget.ContainerView',
+    alias: 'widget.purchaseview',
     border: 0,
     controller: 'productcontroller',
     viewModel: 'productviewmodel',
@@ -9,7 +9,6 @@
         align: 'stretch'
     },
 
-    bind: { data: '{cart}' },
 
     items: [{
         xtype: 'productlist',

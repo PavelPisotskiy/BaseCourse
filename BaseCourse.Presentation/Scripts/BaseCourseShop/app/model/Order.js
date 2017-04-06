@@ -8,15 +8,18 @@
         associationKey: 'orderItems'
     },
 
-    proxy: {
-        type: 'ajax',
-        url: orderUrls.GetCart,
-        autoLoad: false,
-        reader: {
-            type: 'json',
-            rootProperty: 'cart',
-            successProperty: 'success'
-        }
+    schema: {
+        namespace: 'BaseCourseShop.model',
+        proxy: {
+            type: 'ajax',
+            url: orderUrls.GetCart,
+            autoLoad: false,
+            reader: {
+                type: 'json',
+                rootProperty: 'cart',
+                successProperty: 'success'
+            }
+        },
     },
 
     fields: [

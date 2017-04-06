@@ -36,6 +36,7 @@ namespace BaseCourse.Application.Services
         {
             Order currentOrder = GetCartOfCurrentUser();
             OrderDto orderDto = orderDtoMapper.GetOrderDto(currentOrder);
+            orderDto.OrderItems = orderDto.OrderItems.OrderBy(orderItemDto => orderItemDto.ProductBusinessId);
             return orderDto;
         }
 
@@ -221,6 +222,13 @@ namespace BaseCourse.Application.Services
             {
                 throw new PermissionException("You do not have permission to perform this action.");
             }
+        }
+
+        public double GetCartTotalPrice()
+        {
+            Order order = GetCartOfCurrentUser();
+            IPriceCalculator calculator = new PriceCalculator(productRepository);
+            return calculator.Calculate(order);
         }
 
         private Order GetCartOfCurrentUser()
